@@ -36,4 +36,3 @@ def cat_matrices2D(mat1, mat2, axis=0):
                 cat_matrix[index].append(i)
         return cat_matrix
     return None
-    

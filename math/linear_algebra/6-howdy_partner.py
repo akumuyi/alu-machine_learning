@@ -10,4 +10,3 @@ def cat_arrays(arr1, arr2):
     for i in arr2:
         cat_array.append(i)
     return cat_array
-    
