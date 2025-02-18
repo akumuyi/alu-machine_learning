@@ -1,4 +1,4 @@
-### Learning Objectives
+## Learning Objectives
 At the end of this project, you are expected to be able to explain to anyone, without the help of Google:
 
 ### General
@@ -17,7 +17,7 @@ How to get statistical information from a pd.DataFrame
 How to visualize a pd.DataFrame
 
 ## Requirements
-# General
+### General
 Allowed editors: vi, vim, emacs
 All your files will be interpreted/compiled on Ubuntu 16.04 LTS using python3 (version 3.5)
 Your files will be executed with numpy (version 1.15) and pandas (version 0.24)
