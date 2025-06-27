@@ -1,41 +1,46 @@
 #!/usr/bin/env python3
 """
-Defines methods to ping the Star Wars API and return the list of ships
-that can hold a given number of passengers
+Retrieve starships from SWAPI that can hold a given number of passengers.
 """
-
 
 import requests
 
-
 def availableShips(passengerCount):
     """
-    Uses the Star Wars API to return the list of ships that can hold
-        passengerCount number of passengers
-
-    parameters:
-        passengerCount [int]:
-            the number of passenger the ship must be able to carry
-
-    returns:
-        [list]: all ships that can hold that many passengers
+    Returns a list of ships that can hold at least the given number of passengers.
+    
+    Args:
+        passengerCount (int): Minimum number of passengers the ship must support
+    
+    Returns:
+        list: Names of ships meeting the passenger requirement
     """
-    if type(passengerCount) is not int:
-        raise TypeError(
-            "passengerCount must be a positive number of passengers")
-    if passengerCount < 0:
-        raise ValueError(
-            "passengerCount must be a positive number of passengers")
-    url = "https://swapi-api.hbtn.io/api/starships/?format=json"
-    ships = []
+    url = "https://swapi-api.alx-tools.com/api/starships/"
+    ships_list = []
+    
     while url:
-        results = requests.get(url).json()
-        ships += results.get('results')
-        url = results.get('next')
-    shipsList = []
-    for ship in ships:
-        passengers = ship.get('passengers').replace(",", "")
-        if passengers != "n/a" and passengers != "unknown":
-            if int(passengers) >= passengerCount:
-                shipsList.append(ship.get('name'))
-    return shipsList
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Raise exception for HTTP errors
+            data = response.json()
+            
+            for ship in data['results']:
+                # Handle different passenger value formats
+                passengers = ship.get('passengers', '0').replace(',', '')
+                
+                try:
+                    # Convert to int if possible, skip if non-digit values
+                    if passengers.isdigit():
+                        if int(passengers) >= passengerCount:
+                            ships_list.append(ship['name'])
+                except AttributeError:
+                    # Handle cases where passengers might be None
+                    continue
+                    
+            url = data['next']  # Get next page URL
+            
+        except requests.exceptions.RequestException:
+            break  # Exit loop on any request error
+    
+    return ships_list
+
