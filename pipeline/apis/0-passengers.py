@@ -12,24 +12,25 @@ def availableShips(passengerCount):
     of passengers.
 
     Args:
-        passengerCount (int): Minimum number of passengers the ship must support
-    
+        passengerCount (int): Minimum number of passengers the ship
+        must support
+
     Returns:
         list: Names of ships meeting the passenger requirement
     """
     url = "https://swapi-api.alx-tools.com/api/starships/"
     ships_list = []
-    
+
     while url:
         try:
             response = requests.get(url)
             response.raise_for_status()  # Raise exception for HTTP errors
             data = response.json()
-            
+
             for ship in data['results']:
                 # Handle different passenger value formats
                 passengers = ship.get('passengers', '0').replace(',', '')
-                
+
                 try:
                     # Convert to int if possible, skip if non-digit values
                     if passengers.isdigit():
@@ -38,11 +39,10 @@ def availableShips(passengerCount):
                 except AttributeError:
                     # Handle cases where passengers might be None
                     continue
-                    
+
             url = data['next']  # Get next page URL
-            
+
         except requests.exceptions.RequestException:
             break  # Exit loop on any request error
-    
-    return ships_list
 
+    return ships_list
