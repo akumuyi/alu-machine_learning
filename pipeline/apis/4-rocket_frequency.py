@@ -8,41 +8,25 @@ import requests
 
 def get_all_launches():
     """
-    Retrieves all SpaceX launches with pagination handling
+    Retrieves all SpaceX launches from the latest API
     
     Returns:
         list: All launch records
     """
-    base_url = "https://api.spacexdata.com/v5/launches"
-    all_launches = []
-    page = 1
-
-    while True:
-        try:
-            # Get paginated results
-            response = requests.get(
-                base_url,
-                params={'page': page, 'limit': 200, 'populate': 'rocket'},
-                timeout=20
-            )
-            response.raise_for_status()
-            page_data = response.json()
-
-            if not page_data:
-                break
-
-            all_launches.extend(page_data)
-            page += 1
-
-        except requests.exceptions.RequestException:
-            break
-
-    return all_launches
+    try:
+        response = requests.get(
+            "https://api.spacexdata.com/latest/launches",
+            timeout=15
+        )
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException:
+        return []
 
 
 def count_launches_by_rocket():
     """
-    Counts launches per rocket type and returns sorted results
+    Counts launches per rocket and returns sorted results
     
     Returns:
         list: Tuples of (rocket_name, count) sorted per requirements
@@ -50,20 +34,15 @@ def count_launches_by_rocket():
     launches = get_all_launches()
     rocket_counts = {}
 
-    # Count launches per rocket type
+    # Count launches per rocket
     for launch in launches:
-        try:
-            # Get rocket name directly from populated data
-            rocket_name = launch['rocket']['name']
-        except (KeyError, TypeError):
-            continue
-            
+        rocket_name = launch.get('rocket', {}).get('name', 'Unknown Rocket')
         rocket_counts[rocket_name] = rocket_counts.get(rocket_name, 0) + 1
 
-    # Convert to sorted list
+    # Sort by count (descending) then name (ascending)
     sorted_counts = sorted(
         rocket_counts.items(),
-        key=lambda x: (-x[1], x[0])  # Descending count, ascending name
+        key=lambda x: (-x[1], x[0])
     )
 
     return sorted_counts
