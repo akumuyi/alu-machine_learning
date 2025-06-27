@@ -31,8 +31,7 @@ def get_user_location(url):
         elif response.status_code == 404:
             return "Not found"
         else:
-            msg = "Error: Unexpected status code {}"
-              .format(response.status_code)
+            msg = "Error: Unexpected {}".format(response.status_code)
             print(msg)
             return None
 
