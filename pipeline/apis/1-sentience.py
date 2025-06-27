@@ -52,10 +52,12 @@ def sentientPlanets():
             classification = species.get("classification", "").lower()
             name = species.get("name", "").lower()
 
-            # Broader sentience detection
-            if ("sentient" in designation or
-                "sentient" in classification or
-                name in ["wookiee", "human", "hutt", "yoda's species"]):
+            # Broader sentience detection (fixed indentation)
+            if (
+                "sentient" in designation
+                or "sentient" in classification
+                or name in ["wookiee", "human", "hutt", "yoda's species"]
+            ):
                 sentient_species.append(species)
         species_url = data["next"]
 
