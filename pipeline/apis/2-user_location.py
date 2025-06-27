@@ -7,6 +7,7 @@ import sys
 import requests
 import time
 
+
 def get_user_location(url):
     """
     Fetches and returns the location of a GitHub user from the provided API URL
