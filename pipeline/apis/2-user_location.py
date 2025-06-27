@@ -7,7 +7,6 @@ import sys
 import requests
 import time
 
-
 def get_user_location(url):
     """
     Fetches and returns the location of a GitHub user from the provided API URL
@@ -31,14 +30,12 @@ def get_user_location(url):
         elif response.status_code == 404:
             return "Not found"
         else:
-            msg = "Error: Unexpected status code {}".format(response.status_code)
-            print(msg)
+            print("Error: Unexpected status code {}".format(response.status_code))
             return None
 
     except requests.exceptions.RequestException as e:
         print("Request error: {}".format(e))
         return None
-
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
