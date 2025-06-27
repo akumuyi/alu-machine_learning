@@ -55,8 +55,8 @@ def sentientPlanets():
             # Broader sentience detection
             if ("sentient" in designation or
                 "sentient" in classification or
-                name in ["wookiee", "human", "hutt", "yoda's species"]):
-                    sentient_species.append(species)
+            name in ["wookiee", "human", "hutt", "yoda's species"]):
+                sentient_species.append(species)
         species_url = data["next"]
 
     # Step 2: Process homeworlds, skipping null values
