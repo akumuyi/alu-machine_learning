@@ -29,7 +29,7 @@ def fetch_data(url):
 def get_next_launch():
     """
     Retrieves and processes SpaceX launch data to find the next launch
-    
+
     Returns:
         tuple: (name, date_local, rocket_name, launchpad_name, locality)
     """
