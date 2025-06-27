@@ -11,10 +11,10 @@ import time
 def get_user_location(url):
     """
     Fetches and returns the location of a GitHub user from the provided API URL
-    
+
     Args:
         url (str): Full GitHub API URL for a user
-        
+
     Returns:
         str: Location string if successful, None for errors
     """
