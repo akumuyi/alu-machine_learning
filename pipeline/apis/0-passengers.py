@@ -8,8 +8,9 @@ import requests
 
 def availableShips(passengerCount):
     """
-    Returns a list of ships that can hold at least the given number of passengers.
-    
+    Returns a list of ships that can hold at least the given number
+    of passengers.
+
     Args:
         passengerCount (int): Minimum number of passengers the ship must support
     
