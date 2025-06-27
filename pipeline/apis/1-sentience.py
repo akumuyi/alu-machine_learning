@@ -6,6 +6,7 @@ Retrieve home planets of all sentient species from SWAPI.
 import requests
 import time
 
+
 def fetch_url(url):
     """
     Fetch data from a URL with exponential backoff for rate limits.
@@ -31,6 +32,7 @@ def fetch_url(url):
 
     raise Exception("Max retries exceeded for URL: {}".format(url))
 
+
 def sentientPlanets():
     """
     Returns a list of home planets of all sentient species.
@@ -51,7 +53,7 @@ def sentientPlanets():
             name = species.get("name", "").lower()
 
             # Broader sentience detection
-            if ("sentient" in designation or 
+            if ("sentient" in designation or
                 "sentient" in classification or
                 name in ["wookiee", "human", "hutt", "yoda's species"]):
                 sentient_species.append(species)
