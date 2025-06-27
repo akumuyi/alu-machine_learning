@@ -48,25 +48,24 @@ def sentientPlanets():
             # Check both designation and classification for sentience
             designation = species.get("designation", "").lower()
             classification = species.get("classification", "").lower()
+            name = species.get("name", "").lower()
 
+            # Broader sentience detection
             if ("sentient" in designation or 
                 "sentient" in classification or
-                species["name"].lower() in ["wookie", "human"]):
+                name in ["wookiee", "human", "hutt", "yoda's species"]):
                 sentient_species.append(species)
         species_url = data["next"]
 
-    # Step 2: Process homeworlds
+    # Step 2: Process homeworlds, skipping null values
     planet_urls_seen = set()
     planet_names = []
-    has_unknown = False
 
     for species in sentient_species:
         homeworld_url = species.get("homeworld")
 
-        if homeworld_url is None:
-            if not has_unknown:
-                planet_names.append("unknown")
-                has_unknown = True
+        # Skip species without homeworld
+        if not homeworld_url:
             continue
 
         if homeworld_url in planet_urls_seen:
@@ -78,10 +77,5 @@ def sentientPlanets():
 
     # Sort alphabetically to match expected output
     planet_names.sort()
-
-    # Ensure "unknown" is last if present
-    if has_unknown:
-        planet_names.remove("unknown")
-        planet_names.append("unknown")
 
     return planet_names
