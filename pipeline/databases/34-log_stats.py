@@ -3,12 +3,9 @@
 Nginx logs stored in MongoDB:
 """
 
-
 from pymongo import MongoClient
 
-
 if __name__ == '__main__':
-
     client = MongoClient('mongodb://127.0.0.1:27017')
     collection = client.logs.nginx
 
@@ -16,16 +13,18 @@ if __name__ == '__main__':
     total_logs = collection.count_documents({})
 
     methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    method_counts = {method: collection.count_documents(
-        {"method": method}) for method in methods}
+    method_counts = {}
+    for method in methods:
+        method_counts[method] = collection.count_documents({"method": method})
 
     # Get the count of status check
     status_check_count = collection.count_documents(
-        {"method": "GET", "path": "/status"})
+        {"method": "GET", "path": "/status"}
+    )
 
-    # Print the stats
-    print(f"{total_logs} logs")
+    # Print the stats in Python 3.5 compatible format
+    print("{} logs".format(total_logs))
     print("Methods:")
-    for method, count in method_counts.items():
-        print(f"\tmethod {method}: {count}")
-    print(f"{status_check_count} status check")
+    for method in methods:
+        print("\tmethod {}: {}".format(method, method_counts[method]))
+    print("{} status check".format(status_check_count))
